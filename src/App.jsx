@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { lazy, Suspense, useState, useEffect } from "react";
 import { ArrowUpRight, Github, Linkedin, Instagram, Mail } from "lucide-react";
 
 import { ACCENT, BG, PANEL, LINE, DIM, FONT_IMPORT } from "./theme";
@@ -18,10 +18,11 @@ import PhoneMockup from "./components/PhoneMockup";
 import { CopyEmail, CopyRow } from "./components/CopyEmail";
 import DiagonalRibbon from "./components/DiagonalRibbon";
 import Carousel from "./components/Carousel";
-import ProfilesPage from "./ProfilesPage";
-import GearPage from "./GearPage";
-import BookingPage from "./BookingPage";
-import BlogPage from "./BlogPage";
+
+const ProfilesPage = lazy(() => import("./ProfilesPage"));
+const GearPage = lazy(() => import("./GearPage"));
+const BookingPage = lazy(() => import("./BookingPage"));
+const BlogPage = lazy(() => import("./BlogPage"));
 
 function HomePage() {
   const [entered, setEntered] = useState(false);
@@ -460,9 +461,11 @@ function clampCatWidth() {
 
 
 export default function App() {
-  if (window.location.pathname === "/profiles") return <ProfilesPage />;
-  if (window.location.pathname === "/gear") return <GearPage />;
-  if (window.location.pathname === "/book") return <BookingPage />;
-  if (window.location.pathname === "/blog") return <BlogPage />;
+  let page = null;
+  if (window.location.pathname === "/profiles") page = <ProfilesPage />;
+  else if (window.location.pathname === "/gear") page = <GearPage />;
+  else if (window.location.pathname === "/book") page = <BookingPage />;
+  else if (window.location.pathname === "/blog") page = <BlogPage />;
+  if (page) return <Suspense fallback={null}>{page}</Suspense>;
   return <HomePage />;
 }

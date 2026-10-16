@@ -9,8 +9,11 @@ export function useClock() {
   return t;
 }
 
-// IntersectionObserver-driven "has this scrolled into view" flag.
+// IntersectionObsdsfserver-driven "has this scrolled into view" flag.
 // Used by <Reveal> to fade/slide sections in without any animation library.
+
+
+// fdsfsa
 export function useReveal(threshold = 0.15) {
   const ref = useRef(null);
   const [visible, setVisible] = useState(false);
